@@ -316,8 +316,21 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
                       children: filteredSuggestions.map((suggestion) {
                         return new Row(children: [
                           new Expanded(
-                              child: new InkWell(
+                              child: new GestureDetector(
                                   child: itemBuilder(context, suggestion),
+                                  onLongPress: (){
+
+                                    suggestions.remove(suggestion.toString());
+                                    setState(() {
+                                      updateSuggestions(suggestions);
+
+
+                                    });
+
+                                  },
+
+
+
                                   onTap: () {
                                     setState(() {
                                       if (submitOnSuggestionTap) {
@@ -334,7 +347,9 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
                                         textChanged(newText);
                                       }
                                     });
-                                  }))
+                                  })
+
+                          )
                         ]);
                       }).toList(),
                     )))));
@@ -372,7 +387,6 @@ class AutoCompleteTextFieldState<T> extends State<AutoCompleteTextField> {
     if (controller == null) {
       textField.controller.dispose();
     }
-    listSuggestionsEntry?.remove();
     super.dispose();
   }
 
